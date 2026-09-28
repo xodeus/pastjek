@@ -45,22 +45,15 @@ def get_status():
 
         page.goto(URL, wait_until="networkidle")
 
-        page.locator("input").fill(PASSPORT_NUMBER)
+        page.screenshot(path="debug.png", full_page=True)
 
-        page.get_by_role("button", name="CHECK").click()
+        print(page.title())
 
-        page.wait_for_timeout(3000)
-
-        status_box = page.locator("text=Passport")
-
-        text = page.locator("body").inner_text()
+        print(page.locator("body").inner_text()[:5000])
 
         browser.close()
 
-        return text
-
-
-def extract_status(page_text):
+        return "DEBUG"def extract_status(page_text):
 
     if "Passport is ready for collection" in page_text:
         return "READY"

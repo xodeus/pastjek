@@ -54,6 +54,7 @@ def get_status():
         browser.close()
 
         return "DEBUG"
+        
         def extract_status(page_text):
 
     if "Passport is ready for collection" in page_text:

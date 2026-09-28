@@ -1,30 +1,3 @@
-name: Polish Passport Check
-
-on:
-  schedule:
-    - cron: '0 * * * *'
-  workflow_dispatch:
-
-permissions:
-  contents: write
-
-jobs:
-  check:
-    runs-on: ubuntu-latest
-
-    steps:
-      - uses: actions/checkout@v4
-
-      - name: Setup Python
-        uses: actions/setup-python@v5
-        with:
-          python-version: "3.12"
-
-      - name: Install dependencies
-        run: |
-          pip install -r requirements.txt
-          playwright install chromium
-
       - name: Run checker
         env:
           PASSPORT_NUMBER: ${{ secrets.PASSPORT_NUMBER }}
@@ -33,11 +6,11 @@ jobs:
         run: |
           python passport_check.py
 
-          name: Upload screenshot
-uses: actions/upload-artifact@v4
-with:
-name: debug-screenshot
-path: debug.png
+      - name: Upload screenshot
+        uses: actions/upload-artifact@v4
+        with:
+          name: debug-screenshot
+          path: debug.png
 
       - name: Commit status
         run: |

@@ -1,3 +1,25 @@
+name: Polish Passport Check
+
+on:
+  workflow_dispatch:
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Install dependencies
+        run: |
+          pip install -r requirements.txt
+          playwright install chromium
+
       - name: Run checker
         env:
           PASSPORT_NUMBER: ${{ secrets.PASSPORT_NUMBER }}
@@ -11,14 +33,3 @@
         with:
           name: debug-screenshot
           path: debug.png
-
-      - name: Commit status
-        run: |
-          git config user.name github-actions
-          git config user.email github-actions@github.com
-
-          git add status.json
-
-          git diff --cached --quiet || git commit -m "Update passport status"
-
-          git push
